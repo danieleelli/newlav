@@ -16,7 +16,7 @@ class MakerVehiclesController extends Controller
      */
     public function index($id)
     {
-        return "Showing the vrhicles of $id";
+        return "Showing the vehicles of $id";
     }
 
     /**
