@@ -40,7 +40,8 @@ class MakerVehiclesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\CreateVehicleRequest  $request
+     * @param  int $makerId
      * @return \Illuminate\Http\Response
      */
     public function store(CreateVehicleRequest $request, $makerId)
@@ -62,6 +63,7 @@ class MakerVehiclesController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  int $vehicleId
      * @return \Illuminate\Http\Response
      */
     public function show($id, $vehicleId)
@@ -94,13 +96,39 @@ class MakerVehiclesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\CreateVehicleRequest  $request
+     * @param  int  $makerId
+     * @param  int  $vehicleId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateVehicleRequest $request, $makerId, $vehicleId)
     {
-        //
+        $maker = Maker::find($makerId);
+        if(!$maker)
+        {
+            return response()->json(['message' => 'This maker does not exist', 'code' => 404], 404);
+        }
+
+        $vehicle = $maker->vehicles->find($vehicleId);
+
+        if(!$vehicle)
+        {
+            return response()->json(['message' => "This maker does not exist for this maker", "code" => 404], 404);
+        }
+
+        $color = $request->get('color');
+        $power = $request->get('power');
+        $capacity = $request->get('capacity');
+        $speed = $request->get('speed');
+
+        $vehicle->color = $color;
+        $vehicle->power = $power;
+        $vehicle->capacity = $capacity;
+        $vehicle->speed = $speed;
+
+        $vehicle->save();
+
+        return response()->json(['message' => 'The vehicle has been updated'], 200);
     }
 
     /**
