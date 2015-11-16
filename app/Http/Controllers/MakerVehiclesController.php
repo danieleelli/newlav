@@ -134,11 +134,24 @@ class MakerVehiclesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $makerId
+     * @param  int  $vehicleId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($makerId, $vehicleId)
     {
-        //
+        $maker = Maker::find($makerId);
+        if(!$maker)
+        {
+            return response()->json(['message' => 'This maker does not exist', 'code' => 404], 404);
+        }
+        $vehicle = $maker->vehicles->find($vehicleId);
+        if(!$vehicle > 0)
+        {
+            return response()->json(['message' => 'This maker has associated vehicles not exist. Delete his vehicles first', 'code' => 409], 409);
+        }
+        $vehicle->delete();
+
+        return response()->json(['message' => 'The vehicle has been deleted'], 200);
     }
 }

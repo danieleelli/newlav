@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Maker;
+use App\Vehicle;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -108,6 +109,19 @@ class MakerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $maker = Maker::find($id);
+        if(!$maker)
+        {
+            return response()->json(['message' => 'This maker does not exist', 'code' => 404], 404);
+        }
+        $vehicles = $maker->vehicles;
+        if(sizeof($vehicles) > 0)
+        {
+            return response()->json(['message' => 'This maker has associated vehicles not exist. Delete his vehicles first', 'code' => 409], 409);
+        }
+        $maker->delete();
+
+        return response()->json(['message' => 'The maker has been deleted'], 200);
+
     }
 }
