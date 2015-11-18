@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'CreateUsers' => $baseDir . '/database/migrations/2015_11_16_170407_create_users.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
@@ -515,6 +516,7 @@ return array(
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Resources/stubs/SessionHandlerInterface.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'UsersSeed' => $baseDir . '/database/seeds/UsersSeed.php',
     'VehiclesSeed' => $baseDir . '/database/seeds/VehiclesSeed.php',
     'VehiclesTable' => $baseDir . '/database/migrations/2015_11_16_091519_vehicles_table.php',
 );
