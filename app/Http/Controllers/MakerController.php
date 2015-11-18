@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\CreateMakerRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 
 class MakerController extends Controller
@@ -25,8 +26,13 @@ class MakerController extends Controller
      */
     public function index()
     {
-        $makers = Maker::all();
-        return response()->json(['data' => $makers], 200);
+        $makers = Cache::remember('makers', 15/60, function()
+        {
+            return Maker::paginate(15);
+        });
+
+        return $makers;
+        return response()->json(['total' => $makers->total(), 'currentPage' => $makers->currentPage(), 'next' => $makers->nextPageUrl(), 'prev' => $makers->previousPageUrl(), 'data' => $makers->items()], 200);
     }
 
     /**
@@ -48,8 +54,8 @@ class MakerController extends Controller
     public function store(CreateMakerRequest $request)
     {
         $values = $request->only(['name', 'phone']);
-        Maker::create($values);
-        return response()->json(['message' => 'Maker correctly added'], 201);
+        $maker = Maker::create($values);
+        return response()->json(['message' => "Maker correctly added with id: {$maker->id}"], 201);
 
     }
 

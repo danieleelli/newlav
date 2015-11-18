@@ -33,16 +33,6 @@ class MakerVehiclesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\CreateVehicleRequest  $request
@@ -58,9 +48,9 @@ class MakerVehiclesController extends Controller
             return response()->json(['message' => 'This maker does not exist', 'code' => 404], 404);
         }
         $values = $request->all();
-        $maker->vehicles()->create($values);
+        $vehicle = $maker->vehicles()->create($values);
 
-        return response()->json(['message' => 'The vehicle associated was created'], 201);
+        return response()->json(['message' => "The vehicle associated has been created with id: {$vehicle->serie}"], 201);
 
     }
 
@@ -85,17 +75,6 @@ class MakerVehiclesController extends Controller
         }
 
         return response()->json(['data' => $vehicle], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
