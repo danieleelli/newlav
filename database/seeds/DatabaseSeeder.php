@@ -20,11 +20,13 @@ class DatabaseSeeder extends Seeder
         Maker::truncate();
         Vehicle::truncate();
         User::truncate();
+        DB::table('oauth_clients')->truncate();
         Model::unguard();
 
         $this->call(MakersSeed::class);
         $this->call(VehiclesSeed::class);
         $this->call(UsersSeed::class);
+        $this->call(OauthClientSeed::class);
 
         Model::reguard();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');

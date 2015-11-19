@@ -14,7 +14,9 @@
 Route::resource('makers', 'MakerController', ['except' => ['edit', 'create']]);
 Route::resource('vehicles', 'VehicleController', ['only' => ['index', 'show']]);
 Route:resource('makers.vehicles', 'MakerVehiclesController');
-
+Route::post('oauth/access_token', function(){
+    return response()->json(Authorizer::issueAccessToken());
+});
 /*Route::get('/', function () {
     return view('welcome');
 });*/
